@@ -1,0 +1,51 @@
+% layout 'default', tags => undef;
+% title 'Внутренняя ошибка сервера - Tradly';
+
+<div id="search"  class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+    <form action="/" method="get">
+      <div class="input-group">
+        <div class="input-group-btn hidden-xs">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <span id="category-button">Все категории</span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" id="category-dd-menu" role="menu">
+            <li><a>Все категории</a></li>
+            <li><a>Транспорт</a></li>
+            <li><a>Недвижимость</a></li>
+            <li><a>Работа</a></li>
+            <li><a>Услуги</a></li>
+            <li><a>Личные вещи</a></li>
+            <li><a>Для дома</a></li>
+            <li><a>Бытовая электроника</a></li>
+            <li><a>Хобби и отдых</a></li>
+            <li><a>Животные</a></li>
+            <li><a>Для бизнеса</a></li>
+          </ul>
+        </div>
+        <input type="text" class="form-control" id="search-string" name="search" placeholder="Поиск по объявлениям" value="<%== $self->param('search')%>">
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default">Найти</button>
+        </div>
+      </div>
+      <input type="hidden" id="category-input" name="category">
+    </form>
+  </div>
+</div>
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <p class="error">Что-то пошло не так.</p>
+            <p align="center">Нам очень жаль, но серверу не удалось выполнить ваш запрос,
+              попробуйте повторить попытку позже или сообщите о проблеме на <a href="mailto:help@trdly.com">help@trdly.com</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<nav>
+  <ul class="pagination">
+    %my @pagination_list=$pagination->get_list;
+    %if(scalar(@pagination_list) > 1){
+      %foreach my $item (@pagination_list){
+        %if($item eq "<"){
+          <li>
+            <a href="<%= $pagination->get_url_for_page(1) %>" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          %}elsif($item eq ">"){
+          <li>
+            <a href="<%=  $pagination->get_url_for_page($pagination->get('total_page')) %>" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          %}elsif($item == $pagination->get('page_id')){
+            <li class="active"><a href="<%= $pagination->get('url').'/'.$item %>"><%= $item %><span class="sr-only">(current)</span></a></li>
+        %}else{
+          <li><a href="<%= $pagination->get_url_for_page($item) %>"><%= $item %></a></li>
+        %}
+      %}
+    %}
+  </ul>
+</nav>

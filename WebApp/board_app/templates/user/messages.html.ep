@@ -1,0 +1,74 @@
+% layout 'default', tags => 'Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title 'Мои сообщения на Tradly доске бесплатных объявлений Нячанга';
+
+%= $self->render_to_string('user/sidebar')
+
+
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xs-offset-0 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+    %if($self->param('success_remove')){
+    <div class="alert alert-success" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      Сообщение удалено.
+    </div>
+    %}
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        %unless($messages->[0]){
+        <p align="center">
+            У вас в данный момент нет сообщений.
+        </p>
+        %}
+        %foreach my $message (@{$messages}){
+        <div class="messegas-list">
+            <div class="row">
+              <ul>
+                <li class="message-date">
+                  <%= $message->get_date %>
+                </li>
+                <li class="message-from">
+                  От: <%= $message->{name}->{value}%> (<%= $message->{email}->{value}%>)
+                </li>
+                <li class="message-advert-title">
+                  Объявление:<%= $message->{advert_title}->{value}%>
+                </li>
+                <li class="message-control">
+                  <a class="show-message">Прочитать</a> <a href="/advert/remove_message/<%= $message->{advert_id}->{value} %>/?date=<%=$message->{date}->{value}%>&email=<%= $message->{email}->{value} %>">Удалить</a>
+                </li>
+                <li class="message">
+                  <%= $message->{message}->{value}%>
+                </li>
+              </ul>
+          </div>
+        </div>
+        %}
+        %my @pagination_list=$pagination->get_list;
+        %if(@pagination_list){
+        <div class="text-center">
+          <nav>
+            <ul class="pagination">
+              %if(scalar(@pagination_list) > 1){
+                %foreach my $item (@pagination_list){
+                  %if($item eq "<"){
+                    <li><a href="<%= $pagination->get_url_for_page(1) %>" aria-label="First"><span aria-hidden="true">&laquo;</span></a></li>
+                  %}elsif($item eq ">"){
+                    <li><a href="<%=  $pagination->get_url_for_page($pagination->get('total_page')) %>" aria-label="Last"><span aria-hidden="true">&raquo;</span></a></li>
+                  %}elsif($item == $pagination->get('page_id')){
+                    <li class="active"><a href="<%= $pagination->get('url').'/'.$item %>"><%= $item %><span class="sr-only">(current)</span></a></li>
+                  %}else{
+                    <li><a href="<%= $pagination->get_url_for_page($item) %>"><%= $item %></a></li>
+                  %}
+                %}
+              %}
+            </ul>
+          </nav>
+        </div>
+        %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>

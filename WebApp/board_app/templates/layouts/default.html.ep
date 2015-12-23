@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+    <meta name="description" content="<%= $tags %>">
+    <meta name="author" content="Kirill Sysoev">
+    <meta name="keywords"
+          content="объявления нячанг, нячанг бесплатные объявления, нячанг частные объявления,
+                   нячанг доска объявлений, нячанг бесплатные доски, дать объявление нячанг,
+                   бесплатные доски объявлений нячанг, нячанг объявления продажа,
+                   нячанг объявления продаю, сайт объявления нячанга, tradly, нячанг, вьетнам,
+                   nhatrang, vietnam" />
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <link rel="icon" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/touch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/touch-icon-ipad-retina.png">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/tradly.css?v=1">
+  </head>
+  <body>
+    <div id="header">
+      <div  class="container">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+          <div class="links">
+            <ul>
+              <li><a href="/about">О проекте</a></li>
+            %#<li><a href="#">Помощь</a></li>
+            </ul>
+          </div>
+          <div class="users">
+            <ul>
+              %if($self->session('auth')){
+                <li>
+                  <div class="dropdown">
+                    <a id="dLabel" data-target="#" href="http://tradly.com" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                      <%= $self->session('email')%>
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                      <li class="visible-xs"><a href="/account/adverts">Мои объявления</a></li>
+                      <li class="visible-xs"><a href="/account/messages">Мои сообщения</a></li>
+                      <li><a href="/account/profile">Профиль</a></li>
+                      <li><a href="/logout">Выйти</a></li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="hidden-xs"><a href="/account/messages">Мои сообщения</a></li>
+                <li class="hidden-xs"><a href="/account/adverts">Мои объявления</a></li>
+              %}else{
+                <li><a href="/login">Вход</a> и <a href="/registration">регистрация</a></li>
+              %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="page" class="container">
+      <div id="navigation" class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2 border">
+        <div id="category-list-short">
+          <ul>
+            <li id="brand"><a href="/">Tradly</a></li>
+            <li class="hidden-xs"><a href="/category/transport">Транспорт</a></li>
+            <li class="hidden-xs"><a href="/category/real_estate">Недвижимость</a></li>
+            <li class="hidden-xs"><a href="/category/service">Услуги</a></li>
+            <li><a id="more" href="#">еще...</a></li>
+          </ul>
+        </div>
+        %unless($self->url_for eq '/advert/add'){
+        <div class="new-advert">
+          <a href="/advert/add" id="new-advert" class="btn btn-primary">Подать объявление</a>
+        </div>
+        %}
+      </div>
+      </div>
+      <div id="category-block" class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+          <ul id="category-list">
+            <div class="list-item">
+              <li class="category"><a href="/category/transport">Транспорт</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/transport/mopeds">Мопеды</a></li>
+                <li class="subcategory"><a href="/category/transport/motorcycles">Мотоциклы</a></li>
+                <li class="subcategory"><a href="/category/transport/cars">Автомобили</a></li>
+                <li class="subcategory"><a href="/category/transport/water_transport">Водный транспорт</a></li>
+                <li class="subcategory"><a href="/category/transport/parts_accessories">Запчасти, аксессуары</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/real_estate">Недвижимость</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/real_estate/houses_cottages">Дома и коттеджи</a></li>
+                <li class="subcategory"><a href="/category/real_estate/apartments">Квартиры</a></li>
+                <li class="subcategory"><a href="/category/real_estate/rooms">Комнаты и номера</a></li>
+                <li class="subcategory"><a href="/category/real_estate/commercial">Комерческая недвижимость</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/job">Работа</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/job/vacancies">Вакансии</a></li>
+                <li class="subcategory"><a href="/category/job/cv">Резюме</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/service">Услуги</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/service/offers">Предложения</a></li>
+                <li class="subcategory"><a href="/category/service/request">Спрос</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/paraphernalia">Личные вещи</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/paraphernalia/clothing">Одежда, обувь, аксессуары</a></li>
+                <li class="subcategory"><a href="/category/paraphernalia/goods_for_children">Товары для детей</a></li>
+                <li class="subcategory"><a href="/category/paraphernalia/watches">Часы и украшения</a></li>
+                <li class="subcategory"><a href="/category/paraphernalia/health">Красота и здоровье</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/home">Для дома</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/home/appliances">Бытовая техника</a></li>
+                <li class="subcategory"><a href="/category/home/furniture">Мебель</a></li>
+                <li class="subcategory"><a href="/category/home/cookware">Посуда и товары для кухни</a></li>
+                <li class="subcategory"><a href="/category/home/foodstuffs">Продукты питания</a></li>
+                <li class="subcategory"><a href="/category/home/plants">Растения</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/electronics">Бытовая электроника</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/electronics/audio_video">Аудио и видео</a></li>
+                <li class="subcategory"><a href="/category/electronics/computer">Компьютерная техника</a></li>
+                <li class="subcategory"><a href="/category/electronics/plates">Планшеты</a></li>
+                <li class="subcategory"><a href="/category/electronics/phones">Телефоны</a></li>
+                <li class="subcategory"><a href="/category/electronics/photo">Фототехника</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/hobbies">Хобби и отдых</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/hobbies/tickets">Билеты и путешествия</a></li>
+                <li class="subcategory"><a href="/category/hobbies/bicycles">Велосипеды</a></li>
+                <li class="subcategory"><a href="/category/hobbies/books">Книги и журналы</a></li>
+                <li class="subcategory"><a href="/category/hobbies/musical">Музыкальные инструменты</a></li>
+                <li class="subcategory"><a href="/category/hobbies/sport">Спорт и отдых</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/animals">Животные</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/animals/dogs">Собаки</a></li>
+                <li class="subcategory"><a href="/category/animals/cats">Кошки</a></li>
+                <li class="subcategory"><a href="/category/animals/birds">Птицы</a></li>
+                <li class="subcategory"><a href="/category/animals/other">Другие животные</a></li>
+                <li class="subcategory"><a href="/category/animals/products_animals">Товары для животных</a></li>
+              </ul>
+            </div>
+            <div class="list-item">
+              <li class="category"><a href="/category/for_business">Для бизнеса</a></li>
+              <ul>
+                <li class="subcategory"><a href="/category/for_business/sale">Готовый бизнес</a></li>
+                <li class="subcategory"><a href="/category/for_business/equipment">Оборудование для бизнеса</a></li>
+              </ul>
+            </div>
+          </ul>
+        </div>
+      </div>
+ <%= content %>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="/js/bootstrap.min.js"></script>
+ <script src="/js/tradly.js?v=1"></script>
+ <%== $self->stash('scripts')%>
+ <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3824316-3', 'auto');
+  ga('send', 'pageview');
+
+  </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+% layout 'default', tags => 'Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title 'Ошибка доступа Tradly';
+
+
+<div id="content" class="row">
+ <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+     <div class="panel panel-default">
+       <div class="panel-body">
+         <div class="col-sm-offset-1 col-sm-10">
+           <form>
+             <h3 class="registration" align="center">
+               В доступе отказано
+             </h3>
+             <p align="center">
+               У вас нет прав для редактирования этого объявления,
+               попробуйте повторить попытку позже,
+               или сообщите о проблеме, отправив письмо с описанием ошибки на адрес
+               <a href="mailto:support@trdly.com">support@trdly.com</a>.
+             </p>
+           </div>
+         </div>
+       </form>
+     </div>
+   </div>
+</div>

@@ -1,0 +1,268 @@
+% layout 'default', tags => 'Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title 'Регистрация на Tradly доске бесплатных объявлений Нячанга';
+
+%my $user = $self->stash('user');
+
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xs-offset-0 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0
+                col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 col-xs-offset-0
+                      col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+            <form method="post" action="/registration">
+              <h3 class="registration" align="center">Регистрация</h3>
+
+              %if( $self->stash('user') and $user->key_status('name')){
+                <div class="form-group has-success has-feedback registration">
+                  <input type="text" class="form-control" maxlength="30"
+                         id="InputName" name="name" placeholder="Ваше имя"
+                         value="<%= $user->key_get('name') %>">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"
+                        aria-hidden="true"></span>
+                  <span id="InputNameSuccessStatus" class="sr-only">(success)
+                  </span>
+                </div>
+              %}elsif($self->stash('user') and !($user->key_status('name'))){
+                <div class="form-group has-error has-feedback registration">
+                  <input type="text" class="form-control" maxlength="30"
+                         id="InputName" name="name" placeholder="Ваше имя"
+                         value="<%= $user->key_get('name') %>">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                        aria-hidden="true"></span>
+                  <span id="InputNameErrorStatus" class="sr-only">(error)</span>
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Имя должно состоять только из букв и пробелов.
+                  </div>
+                </div>
+              %}else{
+                <div class="form-group registration">
+                  <input type="text" class="form-control" maxlength="30"
+                         id="InputName" name="name" placeholder="Ваше имя"
+                         value="<%= $self->session('name') %>">
+                </div>
+              %}
+
+              %if( $self->stash('user') and $user->key_status('email') and
+              % !($user->key_exist('email'))){
+                <div class="form-group has-success has-feedback registration">
+                  <input type="email" class="form-control" maxlength="100"
+                         id="InputEmail" name="email"
+                         placeholder="Электронная почта"
+                         value="<%= $user->key_get('email') %>">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"
+                      aria-hidden="true"></span>
+                  <span id="InputNameSuccessStatus" class="sr-only">(success)
+                  </span>
+                </div>
+              %}elsif($self->stash('user') and (!($user->key_status('email'))
+              % or $user->key_exist('email'))){
+                <div class="form-group has-error has-feedback registration">
+                  <input type="email" class="form-control" maxlength="100"
+                         id="InputEmail" name="email"
+                         placeholder="Электронная почта"
+                         value="<%= $user->key_get('email') %>">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                      aria-hidden="true"></span>
+                  <span id="InputEmailErrorStatus" class="sr-only">(error)
+                  </span>
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    %if($user->key_exist('email')){
+                      Пользователь с таким Email уже существует.
+                    %}else{
+                      Некорретно введен Email.
+                    %}
+                  </div>
+                </div>
+              %}else{
+                <div class="form-group registration">
+                  <input type="email" class="form-control" maxlength="100"
+                        id="InputEmail" name="email"
+                        placeholder="Электронная почта"
+                        value="<%= $self->session('email') %>">
+                </div>
+              %}
+
+
+              %if( $self->stash('user') and $user->key_status('telephone')  and
+              % !($user->key_exist('telephone'))){
+                <div class="form-group has-success has-feedback registration">
+                  <input type="tel" class="form-control" maxlength="16"
+                        id="InputTelephone" name="telephone"
+                        placeholder="Телефон"
+                        value="<%= $user->key_get('telephone') %>">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"
+                      aria-hidden="true"></span>
+                  <span id="InputTelephoneSuccessStatus" class="sr-only">
+                    (success)
+                  </span>
+                </div>
+              %}elsif($self->stash('user') and (!($user->key_status('telephone'))
+              % or $user->key_exist('telephone'))){
+                <div class="form-group has-error has-feedback registration">
+                  <input type="tel" class="form-control" maxlength="16"
+                        id="InputTelephone" name="telephone"
+                        placeholder="Телефон"
+                        value="<%= $user->key_get('telephone') %>">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                      aria-hidden="true"></span>
+                  <span id="InputTelephoneErrorStatus" class="sr-only">(error)
+                  </span>
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    %if($user->key_exist('telephone')){
+                      Пользователь с таким телефон уже существует.
+                    %}else{
+                      Некорретно введен номер телефона.
+                    %}
+                  </div>
+                </div>
+              %}else{
+                <div class="form-group registration">
+                  <input type="tel" class="form-control" maxlength="16"
+                        id="InputTelephone" name="telephone"
+                        placeholder="Телефон"
+                        value="<%= $self->session('telephone') %>">
+                </div>
+              %}
+
+              %if( $self->stash('user') and $user->key_status('password') and
+              % $user->key_status('password1')){
+                <div class="form-group has-success has-feedback registration">
+                  <input type="password" class="form-control" maxlength="20"
+                        id="InputPassword" name="password" placeholder="Пароль"
+                        value="<%= $self->param('password') %>">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"
+                      aria-hidden="true"></span>
+                  <span id="InputPasswordSuccessStatus" class="sr-only">
+                    (success)
+                  </span>
+                </div>
+              %}elsif($self->stash('user') and !($user->key_status('password')
+              % and $user->key_status('password1'))){
+                <div class="form-group has-error has-feedback registration">
+                  <input type="password" class="form-control" maxlength="20"
+                        id="InputPassword" name="password" placeholder="Пароль">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                      aria-hidden="true"></span>
+                  <span id="InputPasswordErrorStatus" class="sr-only">(error)
+                  </span>
+                  %unless($user->key_status('password')){
+                    <div class="alert alert-danger" role="alert">
+                      <span class="glyphicon glyphicon-exclamation-sign"
+                            aria-hidden="true"></span>
+                          <span class="sr-only">Error:</span>
+                      Пароль должен состоять:<br>
+                      1. минимум из 8 знаков;<br>
+                      2. Буквы латинского алфавита в верхнем и нижнем регистрах;
+                      <br>
+                      3. Минимум одну цифры.
+                    </div>
+                  %}
+                </div>
+              %}else{
+                <div class="form-group registration">
+                  <input type="password" class="form-control" maxlength="20"
+                        id="InputPassword" name="password" placeholder="Пароль">
+                </div>
+              %}
+
+              %if( $self->stash('user') and $user->key_status('password') and
+              % $user->key_status('password1')){
+                <div class="form-group has-success has-feedback registration">
+                  <input type="password" class="form-control" maxlength="20"
+                        id="InputPassword1" name="password1"
+                        placeholder="Пароль еще раз"
+                        value="<%= $self->param('password1') %>">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"
+                      aria-hidden="true"></span>
+                  <span id="InputPassword1SuccessStatus" class="sr-only">
+                    (success)
+                  </span>
+                </div>
+              %}elsif($self->stash('user') and !($user->key_status('password')
+              % and $user->key_status('password1'))){
+                <div class="form-group has-error has-feedback registration">
+                  <input type="password" class="form-control" maxlength="20"
+                        id="InputPassword1" name="password1"
+                        placeholder="Пароль еще раз">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                      aria-hidden="true"></span>
+                  <span id="InputPassword1ErrorStatus" class="sr-only">(error)
+                  </span>
+                  %unless($user->key_status('password1')){
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Пароли не совпадают.
+                  </div>
+                  %}
+                </div>
+              %}else{
+                <div class="form-group registration">
+                  <input type="password" class="form-control" maxlength="20"
+                        id="InputPassword1" name="password1"
+                        placeholder="Пароль еще раз">
+                </div>
+              %}
+
+              %#%if( $self->stash('user') and $user->key_status('eula')){
+              %#  <div class="has-success">
+              %#    <div class="checkbox">
+              %#      <label class="small">
+              %#        <input type="checkbox" name="eula" checked>
+              %#        Я согласен с условиями пользовательского соглажения
+              %#      </label>
+              %#    </div>
+              %#  </div>
+              %#%}elsif($self->stash('user') and !($user->key_status('eula'))){
+              %#  <div class="has-error">
+              %#    <div class="checkbox">
+              %#      <label class="small">
+              %#        <input type="checkbox" name="eula">
+              %#        Я согласен с условиями пользовательского соглажения
+              %#      </label>
+              %#    </div>
+              %#  </div>
+              %#%}else{
+              %#  <div class="checkbox">
+              %#    <label class="small">
+              %#      <input type="checkbox" name="eula">
+              %#      Я согласен с условиями пользовательского соглажения
+              %#    </label>
+              %#  </div>
+              %#%}
+
+              <div class="checkbox">
+                <label class="small">
+                  <input type="checkbox" name="subscription">
+                  Я хочу получать информационные сообщения
+                </label>
+              </div>
+
+
+
+              <p class="registration" align="center">
+                <button type="submit" class="btn btn-primary">
+                  Зарегистрироваться
+                </button>
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+      <p align="center">Уже зарегистрированы?<br>
+      <a href="/login">Войти</a></p>
+    </div>
+  </div>
+</div>

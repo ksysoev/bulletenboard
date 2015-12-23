@@ -1,0 +1,35 @@
+% layout 'default', tags => undef;
+% title 'Успешное подтверждение Электронной почты.';
+
+
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xs-offset-0 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="col-sm-offset-1 col-sm-10">
+            <form>
+              <h3 class="registration" align="center">
+                Вы успешно подтвердили адрес электроной посчты.
+              </h3>
+              <p align="center">
+                Спасибо за регистрацию! В течение нескольких минут Вам на
+                электронный почтовый ящик придет письмо со ссылкой для
+                подтверждения адреса электронной почты.
+              </p>
+              <p align="center">
+                После подтверждения Вы сможете получать уведомления о новых
+                коментариям к вашим объявлениям.
+              </p>
+              <p align="center">
+                Сейчас вы можете приступить к <a href="/">поиску объявлений</a>
+                или <a href="/advert/add">подать новое объявление</a>.
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+      %unless($self->session('auth')){
+      <a href="/login">Войти</a></p>
+      %}
+    </div>
+</div>

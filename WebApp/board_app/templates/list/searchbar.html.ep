@@ -1,0 +1,79 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <form action="/" method="get">
+      <div class="row">
+        <div class="input-group">
+          <div class="input-group-btn hidden-xs">
+            <button type="button" class="btn btn-default dropdown-toggle  sq-border" data-toggle="dropdown" aria-expanded="false">
+              <span id="ddcategory">Все категории</span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu category" role="menu">
+              <li><a>Все категории</a></li>
+              <li><a>Транспорт</a></li>
+              <li><a>Недвижимость</a></li>
+              <li><a>Работа</a></li>
+              <li><a>Услуги</a></li>
+              <li><a>Личные вещи</a></li>
+              <li><a>Для дома</a></li>
+              <li><a>Бытовая электроника</a></li>
+              <li><a>Хобби и отдых</a></li>
+              <li><a>Животные</a></li>
+              <li><a>Для бизнеса</a></li>
+            </ul>
+          </div>
+          <input type="text" class="form-control sq-border" id="search" name="search" placeholder="Поиск по объявлениям" value="<%== $self->param('search')%>">
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-default sq-border"><span class="glyphicon glyphicon-search"></span></button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="dropdown visible-xs col-xs-12 col-sm-4 col-md-4 col-lg-4 sq-border" id="div-category">
+          <button type="button" class="btn btn-default dropdown-toggle category-button sq-border" id="btn-category" data-toggle="dropdown" aria-expanded="false">
+            <span id="ddcategory-xs">Все категории</span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu category" role="menu">
+            <li><a>Все категории</a></li>
+            <li><a>Транспорт</a></li>
+            <li><a>Недвижимость</a></li>
+            <li><a>Работа</a></li>
+            <li><a>Услуги</a></li>
+            <li><a>Личные вещи</a></li>
+            <li><a>Для дома</a></li>
+            <li><a>Бытовая электроника</a></li>
+            <li><a>Хобби и отдых</a></li>
+            <li><a>Животные</a></li>
+            <li><a>Для бизнеса</a></li>
+          </ul>
+        </div>
+        <div class="dropdown col-xs-12 col-sm-6 col-md-6 col-lg-6 " id="div-subcategory">
+          <button type="button" class="btn btn-default dropdown-toggle sq-border
+            category-button" data-toggle="dropdown" aria-expanded="false">
+            <span id="ddsubcategory">Все виды</span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu subcategory" id="subcategory-menu" role="menu">
+          </ul>
+        </div>
+        <div class="dropdown col-xs-12 col-sm-6 col-md-6 col-lg-6" id="div-advert-parametr">
+          <button type="button" class="btn btn-default dropdown-toggle sq-border
+            category-button" data-toggle="dropdown" aria-expanded="false">
+            <span id="ddparam">Все виды</span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu subcategory" id="advert-param-menu" role="menu">
+          </ul>
+        </div>
+      </div>
+      <input type="hidden" id="category" name="category">
+      <input type="hidden" id="subcategory" name="subcategory">
+      <input type="hidden" id="advert-param" name="advert_parametr">
+    </form>
+    </div>
+  </div>
+</div>
+
+<script src="/js/category.search.js"></script>

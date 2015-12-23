@@ -1,0 +1,1 @@
+db.adverts.ensureIndex( { "title" : "text", "description" : "text" }, { default_language: "russian" })

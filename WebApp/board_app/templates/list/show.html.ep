@@ -1,0 +1,167 @@
+% layout 'default', tags => 'Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title 'Бесплатные объявления Нячанга на Tradly';
+
+
+<div id="search"  class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+    <form action="/" method="get">
+      <div class="input-group">
+        <div class="input-group-btn hidden-xs">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <span id="category-button"> <%= $self->stash('category_name') %> </span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" id="category-dd-menu" role="menu">
+            <li><a>Все категории</a></li>
+            <li><a>Транспорт</a></li>
+            <li><a>Недвижимость</a></li>
+            <li><a>Работа</a></li>
+            <li><a>Услуги</a></li>
+            <li><a>Личные вещи</a></li>
+            <li><a>Для дома</a></li>
+            <li><a>Бытовая электроника</a></li>
+            <li><a>Хобби и отдых</a></li>
+            <li><a>Животные</a></li>
+            <li><a>Для бизнеса</a></li>
+          </ul>
+        </div>
+        <input type="text" class="form-control" id="search-string" name="search" placeholder="Поиск по объявлениям" value="<%= $self->param('search')%>">
+        <div class="input-group-btn">
+          <button type="submit" class="btn btn-default">Найти</button>
+        </div>
+      </div>
+      <input type="hidden" id="category-input" name="category" value="<%= $self->stash('category') || $self->param('category') %>">
+    </form>
+  </div>
+</div>
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+    %if($self->param('succesfull_report')){
+    <div class="alert alert-success" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      Ваша жалоба зарегистрирована, мы постраемся разобраться с вашей проблемой.
+    </div>
+    %}elsif($self->param('success_save')){
+    <div class="alert alert-success" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      Ваше объявление сохранено, используйте высланный вам на почту пароль, для того чтобы авторизоваться на сайте  и управлять объявлением.
+    </div>
+    %}elsif($self->param('success_publish')){
+      <div class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Ваше объявление опубликовано, используйте высланный вам на почту пароль, для того чтобы авторизоваться на сайте  и управлять объявлением.
+      </div>
+    %}elsif($self->param('success_remove')){
+      <div class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Ваше объявление удалено.
+      </div>
+    %}elsif($self->param('success_confirm_email')){
+      <div class="alert alert-success" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Вы успешно подтвердили свой адрес электронной почты. Теперь вы сможете получать уведомления о новых вопросах к вашим объявлениям.
+      </div>
+    %}elsif($self->param('error_confirm_email')){
+      <div class="alert alert-danger" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Не удалось подтвердить адресс электронной почты. Неверный email или ключ.
+      </div>
+    %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        %unless($adverts->[0]){
+          <p>
+          К сожалению, по вашему запросу ничего не найдено.<br>
+          Попробуйте:
+        </p>
+          <ul>
+            %if($self->param('search')){
+            <li>Упростить поисковый запрос запроса;</li>
+            %}
+            <li><a href="/">Посмотреть все объявления;</a></li>
+            <li><a href="/advert/add">Создать объявление</a> с запросом на необходимые вам услуги и товар.</li>
+          </ul>
+        %}
+        %foreach my $advert (@{$adverts}){
+        <div class="advert-list">
+            <div class="row">
+            <div class="col-sm-4 col-md-4 col-lg-4 item-advertlist text-center hidden-xs">
+              %if(1){
+              <div class="outer">
+                <div class="inner"><img src="<%= $advert->get_one_image %>" class="img-rounded" /></div>
+              </div>
+              %}
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+              <ul>
+                <li class="item-title">
+                  <a href="/advert/show/<%= $advert->key_get('id') %>">
+                    <h2><%= $advert->key_get('title') %></h2>
+                  </a>
+                </li>
+                <li class="item-price">
+                  %if($advert->{subcategory}->{value} eq 'offers'){
+                    от
+                  %}elsif($advert->{subcategory}->{value} eq 'request'){
+                    до
+                  %}
+                  <%= $advert->key_get('price').' '.$advert->key_get('currency') %>
+                  %if($advert->{advert_sec_parametr}->{value} eq 'long'){
+                    в месяц
+                  %}elsif($advert->{advert_sec_parametr}->{value} eq 'short'){
+                    в день
+                  %}
+                </li>
+                <li class="item-category">
+                  <%= $advert->show_category %> ▸ <%= $advert->show_subcategory %>
+                  <%= '▸ '.$advert->show_advert_param if $advert->show_advert_param %>
+                  <%= '▸ '.$advert->show_advert_sec_parametr if $advert->show_advert_sec_parametr %>
+                </li>
+                <li class="item-date">
+                  <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                  &nbsp<%= $advert->get_last_change_date %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        %}
+        %my @pagination_list=$pagination->get_list;
+        %if(@pagination_list){
+        <div class="text-center">
+          <nav>
+            <ul class="pagination">
+              %if(scalar(@pagination_list) > 1){
+                %foreach my $item (@pagination_list){
+                  %if($item eq "<"){
+                    <li><a href="<%= $pagination->get_url_for_page(1) %>" aria-label="First"><span aria-hidden="true">&laquo;</span></a></li>
+                  %}elsif($item eq ">"){
+                    <li><a href="<%=  $pagination->get_url_for_page($pagination->get('total_page')) %>" aria-label="Last"><span aria-hidden="true">&raquo;</span></a></li>
+                  %}elsif($item == $pagination->get('page_id')){
+                    <li class="active"><a href="<%= $pagination->get('url').'/'.$item %>"><%= $item %><span class="sr-only">(current)</span></a></li>
+                  %}else{
+                    <li><a href="<%= $pagination->get_url_for_page($item) %>"><%= $item %></a></li>
+                  %}
+                %}
+              %}
+            </ul>
+          </nav>
+        </div>
+        %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>

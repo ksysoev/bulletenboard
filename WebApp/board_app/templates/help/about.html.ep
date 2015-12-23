@@ -1,0 +1,32 @@
+% layout 'default', tags => 'Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title 'О проекте Tradly доске бесплатных объявлений Нячанга';
+
+
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1>О проекте</h1>
+            <p>Tradly - это сайт бесплатных объявлений Нячанга, созданный для того,
+              чтобы связывать покупателей и продавцов. На Tradly вы сможете
+              разместить или найти объявление в таких разделах, как
+              <a href="/category/transport">Транспорт</a>,
+              <a href="/category/real_estate">Недвижимость</a>,
+              <a href="/category/service">Услуги</a>,
+              <a href="/category/job">Работа</a>,
+              <a href="/category/home">Товары для дома</a>,
+              <a href="/category/electronics">Бытовая электроника</a> и др.
+            </p>
+            <p>
+              Нам важно знать ваше мнение, и вы всегда можете оставить свои
+              отзывы и предложения по адресу <a href="mailto:info@trdly.com">info@trdly.com</a>
+              или по телефону <a href="tel:+84944978014">+84 94 4978014</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

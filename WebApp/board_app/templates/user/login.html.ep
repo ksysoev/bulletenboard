@@ -1,0 +1,99 @@
+% layout 'default', tags => 'Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title 'Вход на Tradly доске бесплатных объявлений Нячанга';
+
+%my $user = $self->stash('user');
+
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6
+              col-xs-offset-0 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0
+                col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10
+                      col-xs-offset-0 col-sm-offset-1 col-md-offset-1 col-lg-offset-1">
+            <form method="post" action="/login">
+              <h3 class="registration" align="center">Вход</h3>
+
+              %if( $self->stash('user') and $user->key_status('email') and
+              % $user->key_exist('email') ){
+                <div class="form-group has-success has-feedback registration">
+                  <input type="email" class="form-control" maxlength="100"
+                        id="InputEmail" name="email"
+                        placeholder="Электронная почта"
+                        value="<%= $user->key_get('email') %>">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"
+                        aria-hidden="true"></span>
+                  <span id="InputNameSuccessStatus" class="sr-only">(success)
+                  </span>
+                </div>
+              %}elsif($self->stash('user') and (!($user->key_status('email'))
+              % or !($user->key_exist('email')))){
+                <div class="form-group has-error has-feedback registration">
+                  <input type="email" class="form-control" maxlength="100"
+                        id="InputEmail" name="email"
+                        placeholder="Электронная почта"
+                        value="<%= $user->key_get('email') %>">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                        aria-hidden="true"></span>
+                  <span id="InputNameErrorStatus" class="sr-only">(error)</span>
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Неверный Email.
+                  </div>
+                </div>
+              %}else{
+                <div class="form-group registration">
+                  <input type="email" class="form-control" maxlength="100"
+                        id="InputEmail" name="email"
+                        placeholder="Электронная почта">
+                </div>
+              %}
+
+
+              %if($self->stash('user') and $user->password_wrond){
+                <div class="form-group has-error has-feedback">
+                  <input type="password" class="form-control" maxlength="20"
+                        id="InputPassword" placeholder="Пароль" name="password">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                        aria-hidden="true"></span>
+                  <span id="InputNameErrorStatus" class="sr-only">(error)</span>
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Неверный пароль.
+                  </div>
+                </div>
+              %}else{
+                <div class="form-group">
+                  <input type="password" class="form-control" maxlength="20"
+                        id="InputPassword" placeholder="Пароль" name="password">
+                </div>
+              %}
+
+              <p class="small" align="right">
+                <a href="/recovery">Забыли пароль?</a>
+              </p>
+              <div class="checkbox">
+                <label class="small">
+                  <input type="checkbox" name="quick_expire">
+                    Чужой компьютер
+                </label>
+              </div>
+              <p class="registration" align="center">
+                <button type="submit" class="btn btn-primary">
+                  Войти
+                </button>
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+      <p align="center">Ещё не зарегистрированы?<br>
+      <a href="/registration">Регистрация</a></p>
+    </div>
+  </div>
+</div>

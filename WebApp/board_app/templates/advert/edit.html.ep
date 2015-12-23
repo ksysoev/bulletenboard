@@ -1,0 +1,716 @@
+% layout 'default', tags => 'Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title 'Редактирование объявления на Tradly доске бесплатных объявлений Нячанга';
+% $self->stash(scripts=>'<link rel="stylesheet" href="/css/fileinput.min.css"><script src="/js/fileinput.min.js"></script><script src="/js/fileinput.config.js"></script>');
+
+%my $advert = $self->stash('advert');
+
+
+
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6
+              col-xs-offset-0 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+  <div class="panel panel-default">
+    <div class="panel-body">
+        <form id="formname" method="post" action="/advert/edit/<%= $advert->key_get('id') %>" class="form-horizontal" name="formname" enctype="multipart/form-data">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+
+          %if( $error and $advert->key_status('name') ){
+            <div class="form-group has-success has-feedback">
+              <label for="InputName" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Ваше имя
+              </label>
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                <input type="text" class="form-control" maxlength="30"
+                      id="InputName" name="name"
+                      value="<%= $advert->key_get('name') %>">
+                <span class="glyphicon glyphicon-ok form-control-feedback"
+                aria-hidden="true"></span>
+                <span id="InputNameSuccessStatus" class="sr-only">(success)
+                </span>
+              </div>
+            </div>
+          %}elsif( $error and !($advert->key_status('name'))){
+            <div class="form-group has-error has-feedback">
+              <label for="InputName" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Ваше имя
+              </label>
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                <input type="text" class="form-control" maxlength="30"
+                      id="InputName" name="name"
+                      value="<%= $advert->key_get('name') %>">
+                <span class="glyphicon glyphicon-remove form-control-feedback"
+                      aria-hidden="true"></span>
+                <span id="InputNameErrorStatus" class="sr-only">(error)</span>
+                <div class="alert alert-danger" role="alert">
+                  <span class="glyphicon glyphicon-exclamation-sign"
+                        aria-hidden="true"></span>
+                  <span class="sr-only">Error:</span>
+                  Имя должно состоять только из букв и пробелов.
+                </div>
+              </div>
+            </div>
+          %}else{
+            <div class="form-group">
+              <label for="InputName" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Ваше имя
+              </label>
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                <input type="text" class="form-control" maxlength="30"
+                      id="InputName" name="name"
+                      value="<%= $advert->key_get('name') %>">
+              </div>
+            </div>
+          %}
+
+
+
+          %if( $error and $advert->key_status('telephone')  and
+          % !($advert->key_exist('telephone'))){
+            <div class="form-group has-success has-feedback">
+              <label for="InputTelephone" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Телефон
+              </label>
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <input type="text" class="form-control" maxlength="30"
+                      id="InputTelephone" name="telephone"
+                      value="<%= $advert->key_get('telephone') %>">
+                <span class="glyphicon glyphicon-ok form-control-feedback"
+                aria-hidden="true"></span>
+                <span id="InputTelephoneSuccessStatus" class="sr-only">(success)
+                </span>
+              </div>
+            </div>
+            %}elsif( $error and (!($advert->key_status('telephone'))
+            % or $advert->key_exist('telephone'))){
+            <div class="form-group has-error has-feedback">
+              <label for="InputTelephone" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Телефон
+              </label>
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <input type="text" class="form-control" maxlength="30"
+                      id="InputTelephone" name="telephone"
+                      value="<%= $advert->key_get('telephone') %>">
+                <span class="glyphicon glyphicon-remove form-control-feedback"
+                      aria-hidden="true"></span>
+                <span id="InputTelephoneErrorStatus" class="sr-only">(error)</span>
+                <div class="alert alert-danger" role="alert">
+                  <span class="glyphicon glyphicon-exclamation-sign"
+                        aria-hidden="true"></span>
+                  <span class="sr-only">Error:</span>
+                  %if($advert->key_exist('telephone')){
+                    Этот телефон указан указан у другого пользователя.
+                  %}else{
+                    Некорректно введен телефон.
+                  %}
+                </div>
+              </div>
+            </div>
+          %}else{
+            <div class="form-group">
+              <label for="InputTelephone" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Телефон
+              </label>
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <input type="text" class="form-control" maxlength="30"
+                      id="InputTelephone" name="telephone"
+                      value="<%= $advert->key_get('telephone') %>">
+              </div>
+            </div>
+          %}
+
+
+
+          %if( $error and $advert->key_status('category')){
+            <div class="form-group has-success has-feedback">
+              <div class="btn-group col-xs-12 col-sm-8 col-md-8 col-lg-9
+                          col-xs-offset-0 col-sm-offset-4 col-md-offset-4
+                          col-lg-offset-3">
+                <button type="button"
+                        class="btn btn-default dropdown-toggle category-button"
+                        data-toggle="dropdown" aria-expanded="false">
+                  <span id="ddcategory">
+                    <text class="text-success">
+                      <%= $advert->get_category %>
+                      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </text>
+                  </span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu category" role="menu">
+                  <li><a>Транспорт</a></li>
+                  <li><a>Недвижимость</a></li>
+                  <li><a>Работа</a></li>
+                  <li><a>Услуги</a></li>
+                  <li><a>Личные вещи</a></li>
+                  <li><a>Для дома</a></li>
+                  <li><a>Бытовая электроника</a></li>
+                  <li><a>Хобби и отдых</a></li>
+                  <li><a>Животные</a></li>
+                  <li><a>Для бизнеса</a></li>
+                </ul>
+              </div>
+            </div>
+          %}elsif( $error and !($advert->key_status('category'))){
+            <div class="form-group has-error has-feedback">
+              <div class="btn-group col-xs-12 col-sm-8 col-md-8 col-lg-9
+                          col-xs-offset-0 col-sm-offset-4 col-md-offset-4
+                          col-lg-offset-3">
+                <button type="button"
+                        class="btn btn-default dropdown-toggle category-button"
+                        data-toggle="dropdown" aria-expanded="false">
+                  <span id="ddcategory">
+                    <text class="text-danger">
+                      Выберите категорию
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </text>
+                  </span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu category" role="menu">
+                  <li><a>Транспорт</a></li>
+                  <li><a>Недвижимость</a></li>
+                  <li><a>Работа</a></li>
+                  <li><a>Услуги</a></li>
+                  <li><a>Личные вещи</a></li>
+                  <li><a>Для дома</a></li>
+                  <li><a>Бытовая электроника</a></li>
+                  <li><a>Хобби и отдых</a></li>
+                  <li><a>Животные</a></li>
+                  <li><a>Для бизнеса</a></li>
+                </ul>
+              </div>
+            </div>
+          %}else{
+            <div class="form-group">
+              <div class="btn-group col-xs-12 col-sm-8 col-md-8 col-lg-9
+                          col-xs-offset-0 col-sm-offset-4 col-md-offset-4
+                          col-lg-offset-3">
+                <button type="button"
+                        class="btn btn-default dropdown-toggle category-button"
+                        data-toggle="dropdown" aria-expanded="false">
+                  <span id="ddcategory"><%= $advert->get_category %></span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu category" role="menu">
+                  <li><a>Транспорт</a></li>
+                  <li><a>Недвижимость</a></li>
+                  <li><a>Работа</a></li>
+                  <li><a>Услуги</a></li>
+                  <li><a>Личные вещи</a></li>
+                  <li><a>Для дома</a></li>
+                  <li><a>Бытовая электроника</a></li>
+                  <li><a>Хобби и отдых</a></li>
+                  <li><a>Животные</a></li>
+                  <li><a>Для бизнеса</a></li>
+                </ul>
+              </div>
+            </div>
+          %}
+
+
+
+          %if( $error and $advert->key_status('subcategory')
+          %    and $advert->key_status('advert_param')){
+            <div class="form-group has-success has-feedback">
+              <div style="" id="div-subcategory" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                    <div class="dropdown">
+                      <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddsubcategory">
+                      <text class="text-success">
+                        <%= $advert->get_subcategory %>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                      </text>
+                    </span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu subcategory"
+                      id="subcategory-menu" role="menu">
+                      %foreach my $subcategory ($advert->get_subcategory_list){
+                        <li><a><%= $subcategory %></a></li>
+                      %}
+                  </ul>
+                </div> 
+              </div>
+              <div style="
+              %unless($advert->key_get('advert_param')){
+                display:none
+              %}
+              " id="div-advert-parametr" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                 <div class="dropdown">
+                   <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddparam">
+                      <text class="text-success">
+                        <%= $advert->get_advert_param %>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                      </text>
+                    </span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="advert-param-menu" role="menu">
+                    %foreach my $advert_param ($advert->get_advert_param_list){
+                      <li><a><%= $advert_param %></a></li>
+                    %}
+                  </ul>
+                </div> 
+              </div>
+              <div style="
+              %unless($advert->key_get('advert_sec_param')){
+                display:none
+              %}
+              " id="div-advert-sec-parametr" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                 <div class="dropdown">
+                   <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddsecparam">
+                      <text class="text-success">
+                        <%= $advert->get_advert_sec_param %>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                      </text>
+                    </span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="advert-sec-param-menu" role="menu">
+                    %foreach my $advert_sec_param ($advert->get_advert_sec_param_list){
+                      <li><a><%= $advert_sec_param %></a></li>
+                    %}
+                  </ul>
+                </div> 
+              </div>
+            </div>
+          %}elsif( $error and (!($advert->key_status('subcategory')) or
+          %       !($advert->key_status('advert_param')))){
+            <div class="form-group has-error has-feedback">
+              <div style="
+              %unless($advert->key_status('category')){
+                display:none
+              %}
+              " id="div-subcategory" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                    <div class="dropdown">
+                      <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddsubcategory">
+                    %if($advert->key_status('subcategory')){
+                    <text class="text-success">
+                      <%= $advert->get_subcategory %>
+                      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </text>
+                    %}else{
+                    <text class="text-danger">
+                      Выберите вид
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </text>
+                    %}
+                    </span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu subcategory" id="subcategory-menu"
+                      role="menu">
+                      %foreach my $subcategory ($advert->get_subcategory_list){
+                        <li><a><%= $subcategory %></a></li>
+                      %}
+                  </ul>
+                </div> 
+              </div>
+              <div style="
+              %if(!($advert->key_status('subcategory'))
+              %   or ($advert->key_status('advert_param')
+              %   and !($advert->get_advert_param)) ){
+                display:none
+              %}
+              " id="div-advert-parametr" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                 <div class="dropdown">
+                   <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddparam">
+                      %if($advert->key_status('advert_param')){
+                      <text class="text-success">
+                        <%= $advert->get_advert_param %>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                      </text>
+                      %}else{
+                      <text class="text-danger">
+                        Выберите вид
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </text>
+                      %}
+                    </span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="advert-param-menu" role="menu">
+                    %foreach my $advert_param ($advert->get_advert_param_list){
+                      <li><a><%= $advert_param %></a></li>
+                    %}
+                  </ul>
+                </div> 
+              </div>
+              <div style="
+              %if(!($advert->key_status('subcategory')) or !($advert->key_status('advert_param'))
+              %   or ($advert->key_status('advert_sec_param')
+              %   and !($advert->get_advert_sec_param)) ){
+                display:none
+              %}
+              " id="div-advert-sec-parametr" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                 <div class="dropdown">
+                   <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddsecparam">
+                      %if($advert->key_status('advert_sec_param')){
+                      <text class="text-success">
+                        <%= $advert->get_advert_sec_param %>
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                      </text>
+                      %}else{
+                      <text class="text-danger">
+                        Выберите вид
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                      </text>
+                      %}
+                    </span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="advert-sec-param-menu" role="menu">
+                    %foreach my $advert_sec_param ($advert->get_advert_sec_param_list){
+                      <li><a><%= $advert_sec_param %></a></li>
+                    %}
+                  </ul>
+                </div> 
+              </div>
+            </div>
+          %}else{
+            <div class="form-group">
+              <div style="
+              %unless($advert->key_get('subcategory')){
+                display:none
+              %}
+              " id="div-subcategory" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                    <div class="dropdown">
+                      <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddsubcategory"><%= $advert->get_subcategory %></span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu subcategory" id="subcategory-menu" role="menu">
+                    %foreach my $subcategory ($advert->get_subcategory_list){
+                      <li><a><%= $subcategory %></a></li>
+                    %}
+                  </ul>
+                </div> 
+              </div>
+              <div style="
+              %unless($advert->key_get('advert_param')){
+                display:none
+              %}
+              " id="div-advert-parametr" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                 <div class="dropdown">
+                   <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddparam"><%= $advert->get_advert_param %></span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="advert-param-menu" role="menu">
+                    %foreach my $advert_param ($advert->get_advert_param_list){
+                      <li><a><%= $advert_param %></a></li>
+                    %}
+                  </ul>
+                </div> 
+              </div>
+              <div style="
+                  %unless($advert->key_get('advert_sec_parametr')){
+                    display:none
+                  %}
+                  " id="div-advert-sec-parametr" class="col-xs-12
+                  col-sm-8 col-md-8 col-lg-4 col-xs-offset-0 col-sm-offset-4
+                    col-md-offset-4 col-lg-offset-3">
+                 <div class="dropdown">
+                   <button type="button" class="btn btn-default dropdown-toggle
+                    category-button" data-toggle="dropdown" aria-expanded="false">
+                    <span id="ddsecparam"><%= $advert->get_advert_sec_parametr %></span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="advert-sec-param-menu" role="menu">
+                    %foreach my $advert_sec_parametr ($advert->get_advert_sec_parametr_list){
+                      <li><a><%= $advert_sec_parametr %></a></li>
+                    %}
+                  </ul>
+                </div> 
+              </div>
+            </div>
+          %}
+
+
+
+          %if( $error and $advert->key_status('title')){
+            <div class="form-group has-success has-feedback">
+              <label for="InputAdvertTitle" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Название
+              </label>
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                <input type="text" class="form-control" maxlength="50"
+                      id="InputAdvertTitle" name="title"
+                      value="<%= $advert->key_get('title') %>">
+                <span class="glyphicon glyphicon-ok form-control-feedback"
+                aria-hidden="true"></span>
+                <span id="InputAdvertTitleSuccessStatus" class="sr-only">(success)
+                </span>
+              </div>
+            </div>
+          %}elsif( $error and !($advert->key_status('title'))){
+            <div class="form-group has-error has-feedback">
+              <label for="InputAdvertTitle" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Название
+              </label>
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                <input type="text" class="form-control" maxlength="50"
+                      id="InputAdvertTitle" name="title"
+                      value="<%= $advert->key_get('title') %>">
+                <span class="glyphicon glyphicon-remove form-control-feedback"
+                      aria-hidden="true"></span>
+                <span id="InputAdvertTitleErrorStatus" class="sr-only">(error)</span>
+                <div class="alert alert-danger" role="alert">
+                  <span class="glyphicon glyphicon-exclamation-sign"
+                        aria-hidden="true"></span>
+                  <span class="sr-only">Error:</span>
+                  Некоректно введено название объявление
+                </div>
+              </div>
+            </div>
+          %}else{
+            <div class="form-group ">
+              <label for="InputAdvertTitle" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                Название
+              </label>
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                <input type="text" class="form-control" maxlength="50"
+                      id="InputAdvertTitle" name="title"
+                      value="<%= $advert->key_get('title') %>">
+              </div>
+            </div>
+          %}
+
+
+
+          %if(  $error and $advert->key_status('description')){
+            <div class="form-group has-success has-feedback">
+              <label for="InputAdvertDesc" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">Описание</label>
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                <textarea class="form-control" rows="5" id="InputAdvertDesc"
+                          name="description"><%= $advert->key_get('description') %></textarea>
+              </div>
+            </div>
+          %}elsif( $error and !($advert->key_status('description'))){
+            <div class="form-group has-error has-feedback">
+              <label for="InputAdvertDesc" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">Описание</label>
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                <textarea class="form-control" rows="5" id="InputAdvertDesc"
+                          name="description"><%= $advert->key_get('description') %></textarea>
+              </div>
+            </div>
+          %}else{
+            <div class="form-group">
+              <label for="InputAdvertDesc" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">Описание</label>
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                <textarea class="form-control" rows="5" id="InputAdvertDesc"
+                          name="description"><%= $advert->key_get('description') %></textarea>
+              </div>
+            </div>
+          %}
+
+
+
+          %if( $error and $advert->key_status('currency') and $advert->key_status('price')){
+            <div class="form-group has-success has-feedback">
+              <label for="InputPrice" id="label-price" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                %if($advert->{advert_sec_parametr}->{value} eq 'long'){
+                  Цена(в месяц)
+                %}elsif($advert->{advert_sec_parametr}->{value} eq 'short'){
+                  Цена(в день)
+                %}elsif($advert->{subcategory}->{value} eq 'offers'){
+                  Цена(от)
+                %}elsif($advert->{subcategory}->{value} eq 'request'){
+                  Цена(до)
+                %}else{
+                 Цена
+                %}
+                </label>
+              <div class="col-xs-12 col-sm-3 col-md-4 col-lg-4">
+              <input type="text" class="form-control" maxlength="30"
+                      id="InputPrice" name="price" value="<%= $advert->key_get('price') %>">
+              </div>
+              <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4
+                          col-xs-offset-0 col-sm-offset-0 col-md-offset-0
+                          col-lg-offset-0">
+                <label class="radio-inline">
+                  <input type="radio" name="currency" id="currencyRadios1" value="VND"
+                  %if($advert->key_get('currency') eq 'VND'){
+                  checked
+                  %}
+                  >VND
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="currency" id="currencyRadios2" value="USD"
+                  %if($advert->key_get('currency') eq 'USD'){
+                  checked
+                  %}
+                  >USD
+                </label>
+              </div>
+            </div>
+          %}elsif( $error and (!($advert->key_status('currency')) or !($advert->key_status('price')) )){
+            <div class="form-group has-error has-feedback">
+              <label for="InputPrice" id="label-price" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                %if($advert->{advert_sec_parametr}->{value} eq 'long'){
+                  Цена(в месяц)
+                %}elsif($advert->{advert_sec_parametr}->{value} eq 'short'){
+                  Цена(в день)
+                %}elsif($advert->{subcategory}->{value} eq 'offers'){
+                  Цена(от)
+                %}elsif($advert->{subcategory}->{value} eq 'request'){
+                  Цена(до)
+                %}else{
+                 Цена
+                %}
+                </label>
+              <div class="col-xs-12 col-sm-3 col-md-4 col-lg-4">
+              <input type="text" class="form-control" maxlength="30"
+                      id="InputPrice" name="price" value="<%= $advert->key_get('price') %>">
+              </div>
+              <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4
+                          col-xs-offset-0 col-sm-offset-0 col-md-offset-0
+                          col-lg-offset-0">
+                <label class="radio-inline">
+                  <input type="radio" name="currency" id="currencyRadios1" value="VND"
+                  %if($advert->key_get('currency') eq 'VND'){
+                  checked
+                  %}
+                  >VND
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="currency" id="currencyRadios2" value="USD"
+                  %if($advert->key_get('currency') eq 'USD'){
+                  checked
+                  %}
+                  >USD
+                </label>
+              </div>
+            </div>
+          %}else{
+            <div class="form-group">
+              <label for="InputPrice" id="label-price" class="col-xs-12 col-sm-4 col-md-4
+                col-lg-3 control-label">
+                %if($advert->{advert_sec_parametr}->{value} eq 'long'){
+                  Цена(в месяц)
+                %}elsif($advert->{advert_sec_parametr}->{value} eq 'short'){
+                  Цена(в день)
+                %}elsif($advert->{subcategory}->{value} eq 'offers'){
+                  Цена(от)
+                %}elsif($advert->{subcategory}->{value} eq 'request'){
+                  Цена(до)
+                %}else{
+                 Цена
+                %}
+                </label>
+              <div class="col-xs-12 col-sm-3 col-md-4 col-lg-4">
+              <input type="text" class="form-control" maxlength="30"
+                      id="InputPrice" name="price"
+                      value="<%= $advert->key_get('price') %>">
+              </div>
+              <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4
+                          col-xs-offset-0 col-sm-offset-0 col-md-offset-0
+                          col-lg-offset-0">
+                <label class="radio-inline">
+                  <input type="radio" name="currency" id="currencyRadios1" value="VND" checked
+                  %if($advert->key_get('currency') eq 'VND'){
+                  checked
+                  %}
+                  >
+                    VND
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="currency" id="currencyRadios2" value="USD"
+                  %if($advert->key_get('currency') eq 'USD'){
+                  checked
+                  %}
+                  >
+                    USD
+                </label>
+              </div>
+            </div>
+          %}
+
+
+            <div class="form-group">
+              <label for="InputPhotos" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">Фотографии</label>
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 col-xs-offset-0
+                          col-sm-offset-0 col-md-offset-0 col-lg-offset-0">
+                <input id="InputPhotos" name="advert_photos" type="file" class="file" multiple="true">
+                <p><small>При загрузке новых фотографий, будут удалены все старые фотографии.</small></p>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 col-xs-offset-0
+                          col-sm-offset-4 col-md-offset-4 col-lg-offset-3">
+                  <button type="submit" class="btn btn-primary">
+                    Сохранить
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          %foreach my $image (@{$advert->get_images}){
+          <input type="hidden" name="images" value="<%= $image %>">
+          %}
+          %foreach my $image (@{$advert->get_images_min}){
+          <input type="hidden" name="images_min" value="<%= $image %>">
+          %}
+          <input type="hidden" name="images_dir"
+                 value="<%= $advert->key_get('images_dir') %>">
+          <input type="hidden" id="category" name="category"
+                 value="<%= $advert->key_get('category') %>">
+          <input type="hidden" id="subcategory" name="subcategory"
+                 value="<%= $advert->key_get('subcategory') %>">
+          <input type="hidden" id="advert-param" name="advert_param"
+                 value="<%= $advert->key_get('advert_param') %>">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/category.advert.js"></script>
+<script src="/js/fileinput.min.js"></script>
+<script src="/js/fileinput.config.js"></script>

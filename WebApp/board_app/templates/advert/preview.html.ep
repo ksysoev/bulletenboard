@@ -1,0 +1,99 @@
+% layout 'default', tags => $advert->key_get('title').' - Tradly доска объявления Нячанга. Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title $advert->key_get('title').' на Tradly доске бесплатных объявлений Нячанга';
+
+<div id="advert-controls" class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+    <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+       Объявление успешно создано! Проверьте корректность введенных данных и нажмите Опубликовать, чтобы объявление стало доступно для просмотра.
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <ul>
+          <li><a href="/advert/publish/<%= $advert->key_get('id') %>" class="col-xs-6 col-sm-4 col-md-4 col-lg-4">Опубликовать</a></li>
+          <li><a href="/advert/remove/<%= $advert->key_get('id') %>" class="col-xs-6 col-sm-4 col-md-4 col-lg-4">Удалить</a></li>
+          <li><a href="
+            %if($self->session('auth')){
+              /account/adverts?success_save=1
+            %}else{
+              /?success_save=1
+            %}
+            " class="col-xs-12 col-sm-4 col-md-4 col-lg-4">В черновики</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h1><%= $advert->key_get('title') %></h1>
+        <p>Размещено: <%= $advert->get_last_change_date %>.</p>
+        %if($advert->{images}->[0]){
+        <hr>
+        <div id="advert_images" class="carousel slide" data-ride="carousel">
+
+          <ol class="carousel-indicators">
+            %my $i;
+            %foreach my $image (@{$advert->get_images}){
+            <li data-target="#advert_images" data-slide-to="<%= $i %>" class="
+              %unless($i++){
+              active
+              %}
+              "></li>
+            %}
+          </ol>
+
+          <div class="carousel-inner" role="listbox">
+            %$i=0;
+            %foreach my $image (@{$advert->get_images}){
+            <div class="item CarouselImg text-center
+            %unless($i++){
+            active
+            %}
+            ">
+              <a href="<%= $image %>"><img src="<%= $image %>" alt="<%= $advert->key_get('title') %>" class="CarouselImg"></a>
+            </div>
+            %}
+          </div>
+
+          <a class="left carousel-control" href="#advert_images" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Назад</span>
+          </a>
+          <a class="right carousel-control" href="#advert_images" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Вперед</span>
+          </a>
+        </div>
+        %}
+        <hr>
+        <p>Цена:
+          %if($advert->{subcategory}->{value} eq 'offers'){
+            от
+          %}elsif($advert->{subcategory}->{value} eq 'request'){
+            до 
+          %}
+          <strong><%= $advert->key_get('price') %> <%= $advert->key_get('currency') %></strong>
+          %if($advert->{advert_sec_parametr}->{value} eq 'long'){
+            в месяц
+          %}elsif($advert->{advert_sec_parametr}->{value} eq 'short'){
+            в день
+          %}
+        </p>
+        <hr>
+        <p>Контактное лицо: <strong><%= $advert->key_get('name') %></strong></p>
+        <p>Телефон: <strong><%= $advert->key_get('telephone') %></strong></p>
+        <hr>
+        <p><%= $advert->show_category %> ▸ <%= $advert->show_subcategory %>
+        <%= '▸ '.$advert->show_advert_param if $advert->show_advert_param %>
+        <%= '▸ '.$advert->show_advert_sec_parametr if $advert->show_advert_sec_parametr %></p>
+        <p><%== $advert->get_description %></p>
+      </div>
+    </div>
+  </div>
+</div>

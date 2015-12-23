@@ -1,0 +1,31 @@
+% layout 'default', tags => undef;
+% title 'Восстановление пароля.';
+
+
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xs-offset-0 col-sm-offset-1 col-md-offset-2 col-lg-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="col-sm-offset-1 col-sm-10">
+            <form>
+              <h3 class="registration" align="center">
+                Запрос на восстановления пароля создан.
+              </h3>
+              <p align="center">
+                В течение нескольких минут Вам на
+                электронный почтовый ящик придет письмо со ссылкой для
+                восстановления пароля. Перейдите по ссылке указанной в письме и
+                Вы сможете восстановить пароль.
+              </p>
+              <p align="center">
+                Пока вы можете посмотреть <a href="/">новые объявления</a> на
+                нашем сайте.
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+      <p align="center">Вспомнили пароль?<br>
+      <a href="/login">Войти</a></p>
+    </div>
+</div>

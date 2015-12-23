@@ -1,0 +1,324 @@
+% layout 'default', tags => $advert->key_get('title').' - Tradly доска объявления Нячанга. Бесплатные объявления Нячанга на Tradly, подать бесплатные объявления.';
+% title $advert->key_get('title').' на Tradly доске бесплатных объявлений Нячанга';
+% $self->stash(scripts=>'<script type="text/javascript" src="//yastatic.net/share/share.js" charset="utf-8"></script>');
+% my $message = $self->stash('message');
+<div id="content" class="row">
+  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-2">
+    %if($self->param('succesfull_send')){
+    <div class="alert alert-success" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      Сообщение успешно отправлено!
+    </div>
+    %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h1><%= $advert->key_get('title') %></h1>
+        <p>Размещено <%= $advert->get_last_change_date %>.</p>
+        %if($advert->{images}->[0]){
+        <hr>
+        <div id="advert_images" class="carousel slide" data-ride="carousel">
+
+          <ol class="carousel-indicators">
+            %my $i;
+            %foreach my $image (@{$advert->get_images}){
+            <li data-target="#advert_images" data-slide-to="<%= $i %>" class="
+              %unless($i++){
+              active
+              %}
+              "></li>
+            %}
+          </ol>
+
+          <div class="carousel-inner" role="listbox">
+            %$i=0;
+            %foreach my $image (@{$advert->get_images}){
+            <div class="item CarouselImg text-center
+            %unless($i++){
+            active
+            %}
+            ">
+              <a href="<%= $image %>"><img src="<%= $image %>" alt="<%= $advert->key_get('title') %>" class="CarouselImg"></a>
+            </div>
+            %}
+          </div>
+
+          <a class="left carousel-control" href="#advert_images" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Назад</span>
+          </a>
+          <a class="right carousel-control" href="#advert_images" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Вперед</span>
+          </a>
+        </div>
+        %}
+        <hr>
+        <p>Цена:
+        %if($advert->{subcategory}->{value} eq 'offers'){
+          от
+        %}elsif($advert->{subcategory}->{value} eq 'request'){
+          до
+        %}
+        <strong><%= $advert->key_get('price') %> <%= $advert->key_get('currency') %></strong>
+        %if($advert->{advert_sec_parametr}->{value} eq 'long'){
+          в месяц
+        %}elsif($advert->{advert_sec_parametr}->{value} eq 'short'){
+          в день
+        %}
+        </p>
+        <hr>
+        <p>Контактное лицо: <strong><%= $advert->key_get('name') %></strong></p>
+        <p>Телефон: <strong><%= $advert->key_get('telephone') %></strong></p>
+        <hr>
+        <p><%= $advert->show_category %> ▸ <%= $advert->show_subcategory %>
+        <%= '▸ '.$advert->show_advert_param if $advert->show_advert_param %>
+        <%= '▸ '.$advert->show_advert_sec_parametr if $advert->show_advert_sec_parametr %></p>
+        <p><%== $advert->get_description %></p>
+
+
+        <div id="feedback" class="row">
+          <ul>
+              <li><a id="message-form" class="col-xs-6 col-sm-4 col-md-4 col-lg-4">Написать продавцу</a></li>
+            <li>
+              <div class="dropup">
+                <a id="dLabel" data-target="#" href="http://tradly.com" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false" class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                  Пожаловаться
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                  <li><a href="/advert/report/sold/<%= $advert->key_get('id') %>">Товар продан</a></li>
+                  <li><a href="/advert/report/wrong_price/<%= $advert->key_get('id') %>">Неверная цена</a></li>
+                  <li><a href="/advert/report/do_not_call/<%= $advert->key_get('id') %>">Не дозвониться</a></li>
+                  <li><a href="/advert/report/contacs_in_description/<%= $advert->key_get('id') %>">Контакты и ссылки в описании</a></li>
+                  <li><a href="/advert/report/scam/<%= $advert->key_get('id') %>">Мошеничество с деньгами</a></li>
+                  <li><a id="report-other">Другая причина</a></li>
+                </ul>
+              </div>
+            </li>
+            <li  class="hidden-xs col-sm-4 col-md-4 col-lg-4"><div class="yashare-auto-init" data-yashareL10n="ru" data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki" data-yashareTheme="counter"></div></li>
+          </ul>
+        </div>
+
+        <div  id="message" class="row"
+        %if($self->stash('message')){
+          style="display:block"
+        %}
+        >
+          <div class="container-fluid">
+          <form action="/advert/message/<%= $advert->key_get('id') %>" method="post" class="form-horizontal">
+            %if( $self->stash('message') and $message->key_status('name')){
+              <div class="form-group has-success has-feedback">
+                <label for="InputName" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">
+                  Ваше имя
+                </label>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                  <input type="text" class="form-control" maxlength="30"
+                        id="InputName" name="name"
+                        value="<%= $advert->key_get('name') %>">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"
+                  aria-hidden="true"></span>
+                  <span id="InputNameSuccessStatus" class="sr-only">(success)
+                  </span>
+                </div>
+              </div>
+            %}elsif($self->stash('message') and !($message->key_status('name'))){
+              <div class="form-group has-error has-feedback">
+                <label for="InputName" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">
+                  Ваше имя
+                </label>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                  <input type="text" class="form-control" maxlength="30"
+                        id="InputName" name="name"
+                        value="<%= $advert->key_get('name') %>">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                        aria-hidden="true"></span>
+                  <span id="InputNameErrorStatus" class="sr-only">(error)</span>
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Имя должно состоять только из букв и пробелов.
+                  </div>
+                </div>
+              </div>
+            %}else{
+              <div class="form-group">
+                <label for="InputName" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">
+                  Ваше имя
+                </label>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                  <input type="text" class="form-control" maxlength="30"
+                        id="InputName" name="name"
+                        value="<%= $self->session('name') %>">
+                </div>
+              </div>
+            %}
+
+            %if( $self->stash('message') and $message->key_status('email')){
+              <div class="form-group has-success has-feedback">
+                <label for="InputEmail" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">
+                  Email
+                </label>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                  %if($self->session('auth')){
+                  <p class="form-control-static text-success"><%= $self->session('email') %></p>
+                  <input type="hidden" class="form-control" maxlength="30"
+                        id="InputEmail" name="email"
+                        value="<%= $message->key_get('email') %>"
+                        >
+                  %}else{
+                  <input type="text" class="form-control" maxlength="30"
+                        id="InputEmail" name="email"
+                        value="<%= $message->key_get('email') %>">
+                  <span class="glyphicon glyphicon-ok form-control-feedback"
+                  aria-hidden="true"></span>
+                  <span id="InputEmailSuccessStatus" class="sr-only">(success)
+                  </span>
+                  %}
+                </div>
+              </div>
+              %}elsif($self->stash('message') and !($message->key_status('email'))){
+              <div class="form-group has-error has-feedback">
+                <label for="InputEmail" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">
+                  Email
+                </label>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                  <input type="text" class="form-control" maxlength="30"
+                        id="InputEmail" name="email"
+                        value="<%= $message->key_get('email') %>">
+                  <span class="glyphicon glyphicon-remove form-control-feedback"
+                        aria-hidden="true"></span>
+                  <span id="InputEmailErrorStatus" class="sr-only">(error)</span>
+                  <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign"
+                          aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                      Некорретно введен Email.
+                  </div>
+                </div>
+              </div>
+            %}else{
+              <div class="form-group">
+                <label for="InputEmail" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">
+                  Email
+                </label>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-5">
+                  %if($self->session('auth')){
+                  <p class="form-control-static"><%= $self->session('email') %></p>
+                  <input type="hidden" class="form-control" maxlength="30"
+                        id="InputEmail" name="email"
+                        value="<%= $self->session('email') %>"
+                        >
+                  %}else{
+                  <input type="text" class="form-control" maxlength="30"
+                        id="InputEmail" name="email"
+                        value="<%= $self->session('email') %>">
+                  %}
+                </div>
+              </div>
+            %}
+
+            %if( $self->stash('message') and $message->key_status('message')){
+              <div class="form-group has-success has-feedback">
+                <label for="InputAdvertDesc" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">Описание</label>
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
+                  <textarea class="form-control" rows="5" id="InputAdvertDesc"
+                            name="message"><%= $message->key_get('message') %></textarea>
+                </div>
+              </div>
+            %}elsif($self->stash('message')
+            % and !($message->key_status('message'))){
+              <div class="form-group has-error has-feedback">
+                <label for="InputAdvertDesc" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">Описание</label>
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
+                  <textarea class="form-control" rows="5" id="InputAdvertDesc"
+                            name="message"><%= $message->key_get('message') %></textarea>
+                </div>
+              </div>
+            %}else{
+              <div class="form-group">
+                <label for="InputAdvertDesc" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">Описание</label>
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
+                  <textarea class="form-control" rows="5" id="InputAdvertDesc"
+                            name="message"></textarea>
+                </div>
+              </div>
+            %}
+            <div class="form-group">
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 col-xs-offset-0
+                          col-sm-offset-4 col-md-offset-4 col-lg-offset-3">
+                  <button type="submit" class="btn btn-default">
+                    Отправить сообщение
+                  </button>
+                </div>
+              </div>
+          </form>
+        </div>
+        </div>
+
+
+
+        <div  id="feedback-message" class="row"
+        %if($self->stash('report_error')){
+          style="display:block"
+        %}
+        >
+          <div class="container-fluid">
+          <form class="form-horizontal" action="/advert/report/other/<%= $advert->key_get('id') %>" method="post">
+            %if($self->stash('report_error')){
+              <div class="form-group has-error has-feedback">
+                <label for="InputReport" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">Текст жалобы</label>
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                  <textarea class="form-control" rows="5" id="InputReport"
+                            name="report"><%= $self->param('report') %></textarea>
+                </div>
+              </div>
+            %}else{
+              <div class="form-group">
+                <label for="InputReport" class="col-xs-12 col-sm-4 col-md-4
+                  col-lg-3 control-label">Текст жалобы</label>
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+                  <textarea class="form-control" rows="5" id="InputReport"
+                            name="report"></textarea>
+                </div>
+              </div>
+            %}
+            <div class="form-group">
+              <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 col-xs-offset-0
+                          col-sm-offset-4 col-md-offset-4 col-lg-offset-3">
+                  <button type="submit" class="btn btn-default">
+                    Отправить жалобу
+                  </button>
+                </div>
+              </div>
+          </form>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+%if($self->stash('message')){
+  <script type="text/javascript">
+    window.location = '#message';
+  </script>
+%}
+
+%if($self->stash('report_error')){
+  <script type="text/javascript">
+    window.location = '#feedback-message';
+  </script>
+%}

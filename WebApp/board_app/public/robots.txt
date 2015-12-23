@@ -1,0 +1,46 @@
+User-agent: Yandex
+Disallow: /emailconfirm
+Disallow: /account/
+Disallow: /recovery/
+Disallow: /advert/add
+Disallow: /advert/publish/
+Disallow: /advert/unpublish/
+Disallow: /advert/control/
+Disallow: /advert/remove/
+Disallow: /advert/edit/
+Disallow: /advert/message/
+Disallow: /advert/remove_message/
+Disallow: /advert/report/
+Host:trdly.com
+
+
+User-agent: Googlebot
+Disallow: /emailconfirm
+Disallow: /account/
+Disallow: /recovery/
+Disallow: /advert/add
+Disallow: /advert/publish/
+Disallow: /advert/unpublish/
+Disallow: /advert/control/
+Disallow: /advert/remove/
+Disallow: /advert/edit/
+Disallow: /advert/message/
+Disallow: /advert/remove_message/
+Disallow: /advert/report/
+
+User-agent: *
+Crawl-delay: 30
+Disallow: /emailconfirm
+Disallow: /account/
+Disallow: /recovery/
+Disallow: /advert/add
+Disallow: /advert/publish/
+Disallow: /advert/unpublish/
+Disallow: /advert/control/
+Disallow: /advert/remove/
+Disallow: /advert/edit/
+Disallow: /advert/message/
+Disallow: /advert/remove_message/
+Disallow: /advert/report/
+
+Sitemap: http://trdly.com/sitemap.xml
